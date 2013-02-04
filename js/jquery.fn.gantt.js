@@ -245,7 +245,7 @@
 
                 $(element).html(element.gantt);
 
-                element.scrollNavigation.panelMargin = parseInt($dataPanel.css("margin-left").replace("px", ""), 10);
+                element.scrollNavigation.panelMargin = parseInt($dataPanel.css("left").replace("px", ""), 10);
                 element.scrollNavigation.panelMaxPos = ($dataPanel.width() - $rightPanel.width());
 
                 element.scrollNavigation.canScroll = ($dataPanel.width() > $rightPanel.width());
@@ -269,12 +269,12 @@
                             mLeft = ($dataPanel.width() - $rightPanel.width());
                             hPos = mLeft * element.hPosition / element.scaleOldWidth;
                             hPos = hPos > 0 ? 0 : hPos;
-                            $dataPanel.css({ "margin-left": hPos + "px" });
+                            $dataPanel.css({ "left": hPos + "px" });
                             element.scrollNavigation.panelMargin = hPos;
                             element.hPosition = hPos;
                             element.scaleOldWidth = null;
                         } else {
-                            $dataPanel.css({ "margin-left": element.hPosition + "px" });
+                            $dataPanel.css({ "left": element.hPosition + "px" });
                             element.scrollNavigation.panelMargin = element.hPosition;
                         }
                         core.repositionLabel(element);
@@ -288,12 +288,12 @@
                             mLeft = ($dataPanel.width() - $rightPanel.width());
                             hPos = mLeft * element.hPosition / element.scaleOldWidth;
                             hPos = hPos > 0 ? 0 : hPos;
-                            $dataPanel.css({ "margin-left": hPos + "px" });
+                            $dataPanel.css({ "left": hPos + "px" });
                             element.scrollNavigation.panelMargin = hPos;
                             element.hPosition = hPos;
                             element.scaleOldWidth = null;
                         } else {
-                            $dataPanel.css({ "margin-left": element.hPosition + "px" });
+                            $dataPanel.css({ "left": element.hPosition + "px" });
                             element.scrollNavigation.panelMargin = element.hPosition;
                         }
                         core.repositionLabel(element);
@@ -502,10 +502,15 @@
                             }
                             hoursInDay++;
 
+                            // TODO: THIS IS THE MOTHERFUCKER RIGHT HERE!
+                            //console.log("id ms: ",rday.getTime());
+                            var id = tools.genId(tools.dateDeserialize(rday.getTime().toString()).getTime());
+
                             horArr.push('<div class="row day '
                                     + day_class
                                     + '" id="dh-'
-                                    + rday.getTime()
+                                    + id
+                                    //+ rday.getTime()
                                     + '"  offset="' + i * tools.getCellSize() + '"  repdate="' + rday.genRepDate() + '"> '
                                     + rday.getHours()
                                     + '</div>');
@@ -1013,6 +1018,7 @@
                                 // **Hourly data**
                                 case "hours":
                                     var dFrom = tools.genId(tools.dateDeserialize(day.from).getTime(), element.scaleStep);
+                                    console.log(dFrom);
                                     var from = $(element).find('#dh-' + dFrom);
 
                                     var dTo = tools.genId(tools.dateDeserialize(day.to).getTime(), element.scaleStep);
@@ -1034,7 +1040,7 @@
                                     var topEl = $(element).find("#rowheader" + i);
 
                                     var top = tools.getCellSize() * 5 + 2 + parseInt(topEl.attr("offset"), 10);
-                                    _bar.css({ 'margin-top': top, 'margin-left': Math.floor(cFrom) });
+                                    _bar.css({ 'top': top, 'left': Math.floor(cFrom) });
 
                                     datapanel.append(_bar);
                                     break;
@@ -1077,7 +1083,7 @@
                                     var topEl = $(element).find("#rowheader" + i);
 
                                     var top = tools.getCellSize() * 3 + 2 + parseInt(topEl.attr("offset"), 10);
-                                    _bar.css({ 'margin-top': top, 'margin-left': Math.floor(cFrom) });
+                                    _bar.css({ 'top': top, 'left': Math.floor(cFrom) });
 
                                     datapanel.append(_bar);
                                     break;
@@ -1117,7 +1123,7 @@
                                     var topEl = $(element).find("#rowheader" + i);
 
                                     var top = tools.getCellSize() * 2 + 2 + parseInt(topEl.attr("offset"), 10);
-                                    _bar.css({ 'margin-top': top, 'margin-left': Math.floor(cFrom) });
+                                    _bar.css({ 'top': top, 'left': Math.floor(cFrom) });
 
                                     datapanel.append(_bar);
                                     break;
@@ -1143,7 +1149,7 @@
                                     var topEl = $(element).find("#rowheader" + i);
 
                                     var top = tools.getCellSize() * 4 + 2 + parseInt(topEl.attr("offset"), 10);
-                                    _bar.css({ 'margin-top': top, 'margin-left': Math.floor(cFrom) });
+                                    _bar.css({ 'top': top, 'left': Math.floor(cFrom) });
 
                                     datapanel.append(_bar);
 
@@ -1174,7 +1180,7 @@
                 switch (val) {
                     case "begin":
                         $dataPanel.animate({
-                            "margin-left": "0px"
+                            "left": "0px"
                         }, "fast", function () { core.repositionLabel(element); });
                         element.scrollNavigation.panelMargin = 0;
                         break;
@@ -1182,7 +1188,7 @@
                         var mLeft = dataPanelWidth - rightPanelWidth;
                         element.scrollNavigation.panelMargin = mLeft * -1;
                         $dataPanel.animate({
-                            "margin-left": "-" + mLeft + "px"
+                            "left": "-" + mLeft + "px"
                         }, "fast", function () { core.repositionLabel(element); });
                         break;
                     case "now":
@@ -1190,7 +1196,7 @@
                             return false;
                         }
                         var max_left = (dataPanelWidth - rightPanelWidth) * -1;
-                        var cur_marg = $dataPanel.css("margin-left").replace("px", "");
+                        var cur_marg = $dataPanel.css("left").replace("px", "");
                         var val = $dataPanel.find(".today").offset().left - $dataPanel.offset().left;
                         val *= -1;
                         if (val > 0) {
@@ -1199,17 +1205,17 @@
                             val = max_left;
                         }
                         $dataPanel.animate({
-                            "margin-left": val + "px"
+                            "left": val + "px"
                         }, "fast", core.repositionLabel(element));
                         element.scrollNavigation.panelMargin = val;
                         break;
                     default:
                         var max_left = (dataPanelWidth - rightPanelWidth) * -1;
-                        var cur_marg = $dataPanel.css("margin-left").replace("px", "");
+                        var cur_marg = $dataPanel.css("left").replace("px", "");
                         var val = parseInt(cur_marg, 10) + val;
                         if (val <= 0 && val >= max_left) {
                             $dataPanel.animate({
-                                "margin-left": val + "px"
+                                "left": val + "px"
                             }, "fast", core.repositionLabel(element));
                         }
                         element.scrollNavigation.panelMargin = val;
@@ -1222,7 +1228,7 @@
                 if ((element.pageNum + val) >= 0 && (element.pageNum + val) < Math.ceil(element.rowsNum / settings.itemsPerPage)) {
                     core.waitToggle(element, true, function () {
                         element.pageNum += val;
-                        element.hPosition = $(".fn-gantt .dataPanel").css("margin-left").replace("px", "");
+                        element.hPosition = $(".fn-gantt .dataPanel").css("left").replace("px", "");
                         element.scaleOldWidth = false;
                         core.init(element);
                     });
@@ -1275,7 +1281,7 @@
                     element.headerRows = headerRows;
                     var $rightPanel = $(element).find(".fn-gantt .rightPanel");
                     var $dataPanel = $rightPanel.find(".dataPanel");
-                    element.hPosition = $dataPanel.css("margin-left").replace("px", "");
+                    element.hPosition = $dataPanel.css("left").replace("px", "");
                     element.scaleOldWidth = ($dataPanel.width() - $rightPanel.width());
 
                     if (settings.useCookie) {
@@ -1340,13 +1346,13 @@
 
                     var pPos = pos * mLeft / bWidth * -1;
                     if (pPos >= 0) {
-                        $dataPanel.css("margin-left", "0px");
+                        $dataPanel.css("left", "0px");
                         element.scrollNavigation.panelMargin = 0;
                     } else if (pos >= bWidth - (wButton * 1)) {
-                        $dataPanel.css("margin-left", mLeft * -1 + "px");
+                        $dataPanel.css("left", mLeft * -1 + "px");
                         element.scrollNavigation.panelMargin = mLeft * -1;
                     } else {
-                        $dataPanel.css("margin-left", pPos + "px");
+                        $dataPanel.css("left", pPos + "px");
                         element.scrollNavigation.panelMargin = pPos;
                     }
                     clearTimeout(element.scrollNavigation.repositionDelay);
@@ -1362,13 +1368,13 @@
                 var _panelMargin = parseInt(element.scrollNavigation.panelMargin, 10) + delta;
                 if (_panelMargin > 0) {
                     element.scrollNavigation.panelMargin = 0;
-                    $(element).find(".fn-gantt .dataPanel").css("margin-left", element.scrollNavigation.panelMargin + "px");
+                    $(element).find(".fn-gantt .dataPanel").css("left", element.scrollNavigation.panelMargin + "px");
                 } else if (_panelMargin < element.scrollNavigation.panelMaxPos * -1) {
                     element.scrollNavigation.panelMargin = element.scrollNavigation.panelMaxPos * -1;
-                    $(element).find(".fn-gantt .dataPanel").css("margin-left", element.scrollNavigation.panelMargin + "px");
+                    $(element).find(".fn-gantt .dataPanel").css("left", element.scrollNavigation.panelMargin + "px");
                 } else {
                     element.scrollNavigation.panelMargin = _panelMargin;
-                    $(element).find(".fn-gantt .dataPanel").css("margin-left", element.scrollNavigation.panelMargin + "px");
+                    $(element).find(".fn-gantt .dataPanel").css("left", element.scrollNavigation.panelMargin + "px");
                 }
                 core.synchronizeScroller(element);
             },
@@ -1386,8 +1392,8 @@
 
                     var mLeft = $dataPanel.width() - $rightPanel.width();
                     var hPos = 0;
-                    if ($dataPanel.css("margin-left")) {
-                        hPos = $dataPanel.css("margin-left").replace("px", "");
+                    if ($dataPanel.css("left")) {
+                        hPos = $dataPanel.css("left").replace("px", "");
                     }
                     var pos = hPos * bWidth / mLeft - $sliderBtn.width() * 0.25;
                     pos = pos > 0 ? 0 : (pos * -1 >= bWidth - (wButton * 0.75)) ? (bWidth - (wButton * 1.25)) * -1 : pos;
@@ -1407,7 +1413,7 @@
                     }
 
                     if (settings.useCookie) {
-                        $.cookie(this.cookieKey + "ScrollPos", $dataPanel.css("margin-left").replace("px", ""));
+                        $.cookie(this.cookieKey + "ScrollPos", $dataPanel.css("left").replace("px", ""));
                     }
                 }, 500);
             },
@@ -1448,6 +1454,8 @@
                     });
                 });
 
+                //console.log("MAX DATE: ",moment(maxDate).format("LLL"));
+
                 switch (settings.scale) {
                     case "hours":
                         maxDate.setHours(Math.ceil((maxDate.getHours()) / element.scaleStep) * element.scaleStep);
@@ -1469,6 +1477,9 @@
                         maxDate.setDate(maxDate.getDate() + 3);
                         break;
                 }
+
+                //console.log("MAX DATE: ",moment(maxDate).format("LLL"));
+
                 return maxDate;
             },
 
@@ -1578,21 +1589,19 @@
 
             // Deserialize a date from a string
             dateDeserialize: function (dateStr) {
-                //return eval("new" + dateStr.replace(/\//g, " "));
-                var date = eval("new" + dateStr.replace(/\//g, " "));
-                return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes());
+                var newDate = new Date();
+                newDate.setTime(dateStr.replace(/[^0-9]/g, ""));
+                return newDate;
             },
 
             // Generate an id for a date
-            genId: function (ticks) {
+            genId: function (ticks,scale) {
                 var t = new Date(ticks);
                 switch (settings.scale) {
                     case "hours":
-                        var hour = t.getHours();
-                        if (arguments.length >= 2) {
-                            hour = (Math.floor((t.getHours()) / arguments[1]) * arguments[1]);
-                        }
-                        return (new Date(t.getFullYear(), t.getMonth(), t.getDate(), hour)).getTime();
+                        var newDate = new Date(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours());
+                        console.log("genId time: ",newDate.getTime());
+                        return newDate.getTime();
                     case "weeks":
                         var y = t.getFullYear();
                         var w = t.getDayForWeek().getWeekOfYear();
@@ -1643,8 +1652,8 @@
                     $("body").append(
                         $('<div style="display: none; position: absolute;" id="measureBarWidth" ><div class="fn-gantt"><div class="rightPanel"><div class="dataPanel"><div class="row day"><div class="bar" /></div></div></div></div></div>')
                     );
-                    tools._getProgressBarMargin = parseInt($("#measureBarWidth .fn-gantt .rightPanel .day .bar").css("margin-left").replace("px", ""), 10);
-                    tools._getProgressBarMargin += parseInt($("#measureBarWidth .fn-gantt .rightPanel .day .bar").css("margin-right").replace("px", ""), 10);
+                    tools._getProgressBarMargin = parseInt($("#measureBarWidth .fn-gantt .rightPanel .day .bar").css("left").replace("px", ""), 10);
+                    tools._getProgressBarMargin += parseInt($("#measureBarWidth .fn-gantt .rightPanel .day .bar").css("right").replace("px", ""), 10);
                     $("#measureBarWidth").empty().remove();
                 }
                 return tools._getProgressBarMargin;
