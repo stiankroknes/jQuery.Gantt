@@ -164,6 +164,19 @@
     text-shadow: 0 1px 0 rgba(255,255,255,0.75);
     text-align: center;
 }
+.fn-gantt .rightPanel .dayheader, .fn-gantt .rightPanel .dateheader, .fn-gantt .rightPanel .hourheader  {
+    float: left;
+    overflow: hidden;
+    border-left: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    height: 23px;
+    margin: 0 0 0 -1px;
+    background-color: #f6f6f6;
+    font-size: 11px;*/
+    color: #484a4d;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.75);
+    text-align: center;
+}
 
 .fn-gantt-hint {
     border: 5px solid #edc332;

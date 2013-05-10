@@ -505,7 +505,7 @@
                             horArr.push('<div class="row day '
                                     + day_class
                                     + '" id="dh-'
-                                    + rday.getTime()
+                                    + tools.genId(rday.getTime())
                                     + '"  offset="' + i * tools.getCellSize() + '"  repdate="' + rday.genRepDate() + '"> '
                                     + rday.getHours()
                                     + '</div>');
@@ -546,9 +546,9 @@
                         // Append panel elements
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
-                        dataPanel.append($('<div class="row"/>').html(dayArr.join("")));
-                        dataPanel.append($('<div class="row"/>').html(dowArr.join("")));
-                        dataPanel.append($('<div class="row"/>').html(horArr.join("")));
+						dataPanel.append($('<div class="row header dateheader" />').html(dayArr.join("")));
+                        dataPanel.append($('<div class="row header dayheader"/>').html(dowArr.join("")));
+                        dataPanel.append($('<div class="row header hourheader"/>').html(horArr.join("")));
 
                         break;
 
@@ -613,7 +613,11 @@
 
                         var dataPanel = core.dataPanel(element, range.length * tools.getCellSize());
 
-                        dataPanel.append(yearArr.join("") + monthArr.join("") + dayArr.join("") + (dowArr.join("")));
+                        // Append panel elements
+                        dataPanel.append(yearArr.join(""));
+                        dataPanel.append(monthArr.join(""));
+                        dataPanel.append($('<div class="row header dateheader" />').html(dayArr.join("")));
+                        dataPanel.append($('<div class="row header dayheader"/>').html(dowArr.join("")));
 
                         break;
 
@@ -663,9 +667,8 @@
                         // Append panel elements
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
-                        dataPanel.append($('<div class="row"/>').html(dayArr.join("")));
-                        dataPanel.append($('<div class="row"/>').html(dowArr.join("")));
-
+                        dataPanel.append($('<div class="row header dateheader" />').html(dayArr.join("")));
+                        dataPanel.append($('<div class="row header dayheader"/>').html(dowArr.join("")));
                         break;
 
                     // **Days (default)**
@@ -738,11 +741,10 @@
 
 
                         // Append panel elements
-
-                        dataPanel.append(yearArr.join(""));
+						dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
-                        dataPanel.append($('<div class="row"/>').html(dayArr.join("")));
-                        dataPanel.append($('<div class="row"/>').html(dowArr.join("")));
+                        dataPanel.append($('<div class="row header dateheader" />').html(dayArr.join("")));
+                        dataPanel.append($('<div class="row header dayheader"/>').html(dowArr.join("")));
 
                         break;
                 }
